@@ -1,46 +1,52 @@
-#ifndef COMPLEXPLANE_H
-#define COMPLEXPLANE_H
+#ifndef COMPLEX_PLANE_H
+#define COMPLEX_PLANE_H
 
 #include <SFML/Graphics.hpp>
-#include <complex>
-#include <sstream>
+#include <vector>
 #include <string>
 
-const unsigned int MAX_ITER = 64;
-const float BASE_WIDTH = 4.0;
-const float BASE_HEIGHT = 4.0;
-const float BASE_ZOOM = 0.5;
+using namespace sf;
 
-enum class State {
-    CALCULATING,
-    DISPLAYING
-};
-
-class ComplexPlane : public sf::Drawable {
-private:
-    sf::VertexArray m_vArray;
-    State m_state;
-    sf::Vector2f m_mouseLocation;
-    sf::Vector2i m_pixel_size;
-    sf::Vector2f m_plane_center;
-    sf::Vector2f m_plane_size;
-    int m_zoomCount;
-    float m_aspectRatio;
-
-    size_t countIterations(sf::Vector2f coord);
-    void iterationsToRGB(size_t count, sf::Uint8& r, sf::Uint8& g, sf::Uint8& b);
-    sf::Vector2f mapPixelToCoords(sf::Vector2i mousePixel);
-
+class ComplexPlane : public Drawable {
 public:
     ComplexPlane(int pixelWidth, int pixelHeight);
+
+    void updateRender();
     void zoomIn();
     void zoomOut();
-    void setCenter(sf::Vector2i mousePixel);
-    void setMouseLocation(sf::Vector2i mousePixel);
-    void loadText(sf::Text& text);
-    void updateRender();
+    void setCenter(Vector2i mousePixel);
+    void setMouseLocation(Vector2i mousePixel);
+    void loadText(Text& text);
 
-    virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+    enum class State { CALCULATING, DISPLAYING };
+    State getState() const { return m_state; }
+
+private:
+    virtual void draw(RenderTarget& target, RenderStates states) const override;
+    size_t countIterations(Vector2f coord);
+    void iterationsToRGB(size_t count, Uint8& r, Uint8& g, Uint8& b);
+    Vector2f mapPixelToCoords(Vector2i mousePixel);
+
+    // Plane and Pixel Properties
+    Vector2i m_pixel_size;
+    Vector2f m_plane_center;
+    Vector2f m_plane_size;
+    float m_aspectRatio;
+
+    // Mouse Tracking
+    Vector2f m_mouseLocation;
+
+    // Zoom State
+    int m_zoomCount;
+    const float BASE_ZOOM = 0.5f;
+    const float BASE_WIDTH = 4.0f;
+    const float BASE_HEIGHT = 4.0f;
+
+    // Mandelbrot rendering
+    VertexArray m_vArray;
+    State m_state;
+
+    const size_t MAX_ITER = 1000;
 };
 
 #endif
