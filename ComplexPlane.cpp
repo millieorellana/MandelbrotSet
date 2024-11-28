@@ -26,7 +26,7 @@ void ComplexPlane::updateRender()
     {
         for (int i = 0; i < m_pixel_size.y; i++)
         {
-            for (int j = 0; j < m_pixel_size.x; j++) // Fixed increment
+            for (int j = 0; j < m_pixel_size.x; j++)
             {
                 m_vArray[j + i * m_pixel_size.x].position = {static_cast<float>(j), static_cast<float>(i)};
                 Vector2f complexCoord = mapPixelToCoords({j, i});
@@ -101,7 +101,7 @@ void ComplexPlane::iterationsToRGB(size_t count, Uint8& r, Uint8& g, Uint8& b)
 {
     if (count >= MAX_ITER)
     {
-        r = g = b = 0; // Black for points inside the Mandelbrot set
+        r = g = b = 0; //black
         return;
     }
 
@@ -131,7 +131,7 @@ void ComplexPlane::iterationsToRGB(size_t count, Uint8& r, Uint8& g, Uint8& b)
     {
         normalized = (normalized - 0.8f) / 0.2f;
         r = 255;
-        g = 255 - 255 * normalized;
+        g = 255 - 255 * normalized; 
         b = 0;
     }
 }
