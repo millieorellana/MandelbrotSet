@@ -3,18 +3,20 @@
 
 int main()
 {
+    //width
     const int width = 800;
+    //height
     const int height = 600;
 
-    // Create window
+    //creating window
     RenderWindow window(VideoMode(width, height), "Mandelbrot Set");
+    //creating complex plane
     ComplexPlane plane(width, height);
 
-    // Load font
+    //loading font for displaying text
     Font font;
-    if (!font.loadFromFile("Arial.ttf")) // Ensure this font file exists in your working directory
+    if (!font.loadFromFile("Arial.ttf")) //checking if font loads
     {
-        // Display error message on the window if font loading fails
         RenderWindow errorWindow(VideoMode(400, 100), "Error");
         Text errorText;
         errorText.setFont(font);
@@ -40,7 +42,7 @@ int main()
         return -1;
     }
 
-    // Create text object for Mandelbrot information
+    //text for mandelbrot information
     Text infoText;
     infoText.setFont(font);
     infoText.setCharacterSize(16);
@@ -52,33 +54,33 @@ int main()
         Event event;
         while (window.pollEvent(event))
         {
-            if (event.type == Event::Closed)
+            if (event.type == Event::Closed) //closing the window
                 window.close();
 
-            if (event.type == Event::MouseButtonPressed)
+            if (event.type == Event::MouseButtonPressed) //mouse clocks
             {
-                if (event.mouseButton.button == Mouse::Left)
+                if (event.mouseButton.button == Mouse::Left) //zoom in
                     plane.zoomIn();
-                else if (event.mouseButton.button == Mouse::Right)
+                else if (event.mouseButton.button == Mouse::Right)//zoom out
                     plane.zoomOut();
 
-                plane.setCenter(Mouse::getPosition(window));
+                plane.setCenter(Mouse::getPosition(window)); //recenter
             }
         }
 
-        plane.setMouseLocation(Mouse::getPosition(window));
+        plane.setMouseLocation(Mouse::getPosition(window)); //updating mouse position
 
         if (plane.getState() == ComplexPlane::State::CALCULATING)
         {
             plane.updateRender();
         }
 
-        // Update the text with Mandelbrot information
+        //updating mandelbrot info
         plane.loadText(infoText);
 
-        window.clear();
-        window.draw(plane);
-        window.draw(infoText); // Ensure the text is drawn on top of the plane
+        window.clear(); //clear window
+        window.draw(plane); //drawing mandelbrot set
+        window.draw(infoText); //drawing text display
         window.display();
     }
 
