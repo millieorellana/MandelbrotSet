@@ -9,6 +9,7 @@ using namespace sf;
 
 class ComplexPlane : public Drawable {
 public:
+    //setting up plane
     ComplexPlane(int pixelWidth, int pixelHeight);
 
     void updateRender();
@@ -27,25 +28,26 @@ private:
     void iterationsToRGB(size_t count, Uint8& r, Uint8& g, Uint8& b);
     Vector2f mapPixelToCoords(Vector2i mousePixel);
 
-    // Plane and Pixel Properties
+    // plane and pixel variables
     Vector2i m_pixel_size;
     Vector2f m_plane_center;
     Vector2f m_plane_size;
     float m_aspectRatio;
 
-    // Mouse Tracking
+    //mouse position
     Vector2f m_mouseLocation;
 
-    // Zoom State
+    //zoom settings
     int m_zoomCount;
     const float BASE_ZOOM = 0.5f;
     const float BASE_WIDTH = 4.0f;
     const float BASE_HEIGHT = 4.0f;
 
-    // Mandelbrot rendering
+    //rendering Mandelbrot
     VertexArray m_vArray;
     State m_state;
 
+    //max iterations
     const size_t MAX_ITER = 1000;
 };
 
